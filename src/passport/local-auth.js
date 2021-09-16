@@ -25,7 +25,7 @@ passport.use(
       try {
         const found = await User.findOne({ username });
         if (found) {
-          return done(null, false, { message: "YA TE REGISTRASTE ANTES " });
+          return done(null, false, { message: "USER IS ALREADY REGISTERED" });
         }
        
   
@@ -71,15 +71,13 @@ passport.use(
       try {
         const user = await User.findOne({ username });
         if (!user) {
-          done(null, false, {
-            message: "MIRA LA VERDAD QUE ESE USUARIO NO SE ONDA",
-          });
+          done(null, false, {message: "USER NOT FOUND"});
         }
         const validate = await user.validatePassword(password);
         if (!validate) {
-          done(null, false, { message: "FIJATE LA PASSWORD SALAME" });
+          done(null, false, { message: "WRONG PASSWORD" });
         }
-        done(null, user, { message: "LOGUIN SACSESFOLY CAPO" });
+        done(null, user, { message: "SUCCESS" });
       } catch (error) {
         done(error);
       }
