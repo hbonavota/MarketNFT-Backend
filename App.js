@@ -24,7 +24,7 @@ require("./src/passport/google-auth");
 server.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
     allowedHeaders: [
       "Content-Type",
