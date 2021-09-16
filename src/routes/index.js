@@ -158,7 +158,8 @@ router.post(
 );
 
 router.post('/logout', async (req, res) => {
-  const filter = { token: req.body.token }
+  const token = Object.keys(req.body)[0];
+  const filter = { token }
   const update = { token: null }
   await User.findOneAndUpdate(filter, update, { new: true })
   console.log('LOGGED OUT')
