@@ -29,7 +29,7 @@
     "uuid": "^8.2.0",
     "web3": "^1.5.2"
   },
-  "name": "NFTs E-commerce Henry",
+  "name": "cryptoapp",
   "version": "1.0.0",
   "main": "index.js",
   "directories": {
@@ -46,7 +46,7 @@
     "type": "git",
     "url": "git+https://github.com/hbonavota/Heroku"
   },
-  "author": "NFTs Ecommerce Henry",
+  "author": "Joel Durand",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/hbonavota/Heroku"
