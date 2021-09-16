@@ -20,7 +20,7 @@ passport.use(new GoogleStrategy(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:8001/auth/google/callback"
+      callbackURL: "https://nft-e-commerce11.herokuapp.com/auth/google/callback"
     },
     async (_accessToken, _refreshToken, profile, done) => {
       console.log(profile)
