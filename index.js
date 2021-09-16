@@ -1,7 +1,9 @@
-require("dotenv").config()
+if(process.env.NODE_ENV !== 'production'){
+  require("dotenv").config()
+}
 require('./database');
 const server = require('./app.js');
-const port= process.env.port || 8001
+const port= process.env.PORT || 8001
 
 // Syncing all the models at once.
 
