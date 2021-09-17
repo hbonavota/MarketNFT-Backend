@@ -15,7 +15,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const verifyToken = require('../controllers/middlewares/verifyToken')
 const corsOptions = {
-  origin: "*",
+  origin: "https://nft-e-commerce11.herokuap",
   credentials: true,
   optionSuccessStatus: 200,
 };
