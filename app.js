@@ -24,7 +24,7 @@ require("./src/passport/google-auth");
 server.use(
   cors({
     credentials: true,
-    origin: ["https://nft-e-commerce11.herokuap","http://localhost:3000/"],
+    origin: "*",
     methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
     allowedHeaders: [
       "Content-Type",
