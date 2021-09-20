@@ -15,7 +15,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const verifyToken = require('../controllers/middlewares/verifyToken')
 const corsOptions = {
-  origin: /* "https://project-nft-s-frontend.vercel.app" */"https://localhost:3000/",
+  origin: /* "https://project-nft-s-frontend.vercel.app" */"https://localhost:3000",
   credentials: true,
   optionSuccessStatus: 200,
 };
