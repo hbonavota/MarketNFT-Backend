@@ -37,11 +37,13 @@ passport.use(new GoogleStrategy(
               newUser.token = token;
               const foundRoles = await Roles.findOne({ name: "user" });
               newUser.roles = [foundRoles._id];
-    
-                  await newUser.save() //guardamos en la base de datos
-                  return done(null, newUser)
+              await newUser.save() //guardamos en la base de datos
+              return done(null, newUser)
             }
-                 return done(null, user);
+            const token = jwt.sign({ googleID: profile.id}, "superstringinhackeable");
+            user.token = token;
+            await user.save()
+            return done(null, user);
             
 
         } catch (error) {
