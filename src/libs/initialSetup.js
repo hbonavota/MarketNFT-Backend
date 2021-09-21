@@ -45,3 +45,4 @@ const createCategories = async () => {
 //holiss
 
 module.exports = { createRoles, createCategories };
+

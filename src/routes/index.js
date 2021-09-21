@@ -3,6 +3,15 @@ const Roles = require('../../src/models/Role')
 const router = Router()
 const cors = require('cors')
 const passport = require('passport')
+let isdev;
+if (process.env.NODE_ENV === "development") {
+  //...
+  isdev = true
+}
+if (process.env.NODE_ENV === "production") {
+  //...
+ isdev = false;
+}
 
 const {
   transactionMetaMask,
@@ -15,13 +24,15 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const verifyToken = require('../controllers/middlewares/verifyToken')
 const corsOptions = {
-  origin: "*",
+  origin: !isdev? "https://project-nft-s-frontend.vercel.app" :"https://localhost:3000",
   credentials: true,
   optionSuccessStatus: 200,
 };
 // PRUEBA NODEMAILER
-const nodemailer = require('../libs/nodemailer');
+const transporter = require('../libs/nodemailer')
+const signupMail = require('../libs/signupMail')
 const verifyAdmin = require('../controllers/middlewares/verifyAdmin');
+
 
 
 //ADMIN
@@ -81,10 +92,6 @@ router.put('/edit/:id', updateProductById)
 router.get("/profile", getProfile);
 router.post("/profile", createProfile);
 
-//1 admin crea categorias
-//2 admin asigna roles a user
-//3 modifica el fee (%comision)
-//4 admin elimina nfts
 
 router.delete("/admin/:id", deleteProductById); // RUTA DEL ADMIN
 router.post(
@@ -114,7 +121,15 @@ router.post(
   }),
 
   async (req, res, _next) => {
-    return res.send(req.user);
+    transporter.sendMail(signupMail(req), function (error, info) {
+      if (error) {
+        console.log(error)
+      } else {
+        console.log('Email sent: ' + info.response)
+        res.send('Todo ok en el envío de mails de nodemailer')
+      }
+    })
+    return res.send(req.user)
 
     //res.redirect(AL JOM DEL PROYECTO)
   }
@@ -136,19 +151,33 @@ router.post(
         return next(error);
       }
       req.login(req.user, { session: false }, async (err) => {
-
         if (err) return next(err)
         const body = { _id: req.user.id, username: req.user.username }
         const token = jwt.sign({ user: body }, 'superstringinhackeable')
         const filter = { username: req.body.username }
         const userFound = await User.findOne({
           username: req.body.username,
-        }).populate('roles')
+        }).populate('roles')        
+        // const userCart=await User.findOne({username:req.body.username})
+        // if (req.body.cart){
+        //    userCart.shoppingCart=userCart.shoppingCart.concat(req.body.cart)
+        //    function onlyUnique(value, index, self) { 
+        //     return self.indexOf(value) === index;
+        //    }       
+        //    let filter=userCart.shoppingCart.filter(onlyUnique )
+        //    console.log(filter)
+        //    userCart.shoppingCart=filter
+        //    userCart.save()
+        // }
         const update = { token: token }
+        // const cart=userCart.shoppingCart
+        
         const role = userFound.roles[0].name
         const resp = await User.findOneAndUpdate(filter, update, { new: true })
-        console.log([resp, role])
-        return res.send([resp, role])
+
+        res.cookie('token', resp.token);
+        res.cookie('role', role);
+        return res.sendStatus(200)
       })
 
     } catch (error) {
@@ -157,13 +186,16 @@ router.post(
   }
 );
 
-router.post('/logout', async (req, res) => {
-  const token = Object.keys(req.body)[0];
-  const filter = { token }
-  const update = { token: null }
-  await User.findOneAndUpdate(filter, update, { new: true })
-  console.log('LOGGED OUT')
-  res.send('LOGGED OUT')
+
+router.post('/logout', async (req, res,next) => {
+  try{
+    const filter = {token:req.body.token}
+    const update = {token:null}
+    await User.findOneAndUpdate(filter, update, { new: true })
+    res.send('LOGGED OUT')
+  }catch(error){
+    next(error)
+  }
 })
 
 //INICIO DE SESION CON GOOGLE
@@ -174,19 +206,35 @@ router.get(
 router.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:3000/rutadeerror",
+    failureRedirect: "https://project-nft-s-frontend.vercel.app/rutadeerror" || "https://localhost:3000/rutadeerror",
     // successRedirect: 'http://localhost:3000/',
     passReqToCallback: true,
   }),
   async (req, res) => {
-    res.send(req.user);
-    // res.redirect('http://localhost:3000/profile')
-  }
+    const userFound = await User.findOne({
+      username: req.user.username,
+    }).populate('roles')
+    const role = userFound.roles[0].name
+    res.cookie('token' ,userFound.token);
+    res.cookie('role', role)
+    return res.redirect('http://localhost:3000/')
+   }
 );
 
 //PRUEBAS
 router.get("/prueba", verifyAdmin);
 
 router.use(cors(corsOptions));
+
+//SHOPPING CART USER LOGGED
+const {shoppingCartDB} = require('../controllers/shoppingCart/shoppingCartDB')
+const {getCart}=require("../controllers/shoppingCart/getCart")
+const {deleteCart}=require ('../controllers/shoppingCart/deleteCart')
+const {joinCart} = require('../controllers/shoppingCart/joinCart')
+router.post("/userShoppingCart", shoppingCartDB);
+router.post("/DBShoppingCart",getCart);
+router.post('/deleteItem',deleteCart)
+router.post("/joinShoppingCart", joinCart)
+
 
 module.exports = router;
