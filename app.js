@@ -30,12 +30,11 @@ if (process.env.NODE_ENV === "production") {
   //...
  isdev = false;
 }
-
 //MIDDLEWARES
 server.use(
   cors({
     credentials: true,
-    origin: isdev ? 'https://project-nft-s-frontend.vercel.app':'http://localhost:3000',
+    origin: !isdev? 'https://project-nft-s-frontend.vercel.app':'http://localhost:3000',
     methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
     allowedHeaders: [
       "Content-Type",
