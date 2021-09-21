@@ -3,6 +3,15 @@ const Roles = require('../../src/models/Role')
 const router = Router()
 const cors = require('cors')
 const passport = require('passport')
+let isdev;
+if (process.env.NODE_ENV === "development") {
+  //...
+  isdev = true
+}
+if (process.env.NODE_ENV === "production") {
+  //...
+ isdev = false;
+}
 
 const {
   transactionMetaMask,
@@ -15,7 +24,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const verifyToken = require('../controllers/middlewares/verifyToken')
 const corsOptions = {
-  origin: "https://project-nft-s-frontend.vercel.app" ||"https://localhost:3000",
+  origin: !isdev? "https://project-nft-s-frontend.vercel.app" :"https://localhost:3000",
   credentials: true,
   optionSuccessStatus: 200,
 };
