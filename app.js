@@ -20,22 +20,11 @@ createCategories();
 require("./src/passport/local-auth");
 require("./src/passport/google-auth");
 
-let isdev;
-
-if (process.env.NODE_ENV === "development") {
-  //...
-  isdev = true
-}
-if (process.env.NODE_ENV === "production") {
-  //...
- isdev = false;
-}
-
 //MIDDLEWARES
 server.use(
   cors({
     credentials: true,
-    origin: isdev ? 'https://project-nft-s-frontend.vercel.app':'http://localhost:3000',
+    origin:  /* 'https://project-nft-s-frontend.vercel.app' */'http://localhost:3000',
     methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
     allowedHeaders: [
       "Content-Type",
