@@ -22,13 +22,10 @@ async function createProfile(req, res) {
 }
 
 async function getProfile(req, res) {
-    const { id } = req.params;
+    const { token } = req.params;
     try {
-        const profile = await Artist.find()
-
-        console.log("Perfil del usuario: ", profile);
-        console.log("ID del perfil", profile.id)
-
+        const profile = await Artist.findOne({token})
+        console.log("perfil desde la cookie", profile)
         return res.json(profile)
 
     } catch(error) {
@@ -38,17 +35,24 @@ async function getProfile(req, res) {
 }
 
 
-async function updateProfileById(req, res, next) {
+async function updatedProfileById(req, res, next) {
+  const id = req.params.id;
+  const { name, description, image } = req.body;
 
+  try {
+    await Artist.findByIdAndUpdate(id, name, description, image);
+
+    res.json("Profile updated");
+    
+  } catch (error) {
+    next("error");
+    res.json("fail edit profile");
+  }
 }
 
-async function deleteProfileById(req, res, next) {
- 
-}
 
 module.exports = {
     createProfile,
     getProfile,
-    updateProfileById,
-    deleteProfileById,
+    updatedProfileById,
 };
