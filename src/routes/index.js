@@ -230,6 +230,6 @@ router.post("/joinShoppingCart", joinCart)
 
 //PURCHAISE 
 const {historyPurchase}=require('../controllers/purchase/historyPurchase')
-router.post('/purchaise',historyPurchase)
+router.post('/purchase',historyPurchase)
 
 module.exports = router;
