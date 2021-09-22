@@ -23,7 +23,6 @@ passport.use(new GoogleStrategy(
       callbackURL: "https://nft-e-commerce11.herokuapp.com/auth/google/callback"
     },
     async (_accessToken, _refreshToken, profile, done) => {
-      console.log(profile)
         try {
             const user = await User.findOne({googleID : profile.id}); // si el usuario no existe 
             if (!user) {

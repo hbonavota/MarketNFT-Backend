@@ -28,7 +28,14 @@ const userSchema = new Schema({
       ref: "ShoppingCart",
     },
     { timestamps: true, versionKey: false },
-  ]
+  ],
+  purchase:[
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Purchase",
+    },
+    { timestamps: true, versionKey: false },
+  ],
 
 });
 
@@ -48,3 +55,5 @@ userSchema.methods.validatePassword = async function validatePassword(data) {
 };
 
 module.exports = mongoose.model("users", userSchema);
+
+
