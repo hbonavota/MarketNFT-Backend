@@ -13,5 +13,5 @@ async function historyPurchase(req, res, next) {
   }
   
   module.exports = {
-    historyPurchaise
+    historyPurchase
 };
