@@ -112,6 +112,9 @@ router.post(
   }),
 
   async (req, res, _next) => {
+    const user = await User.findOne({token:req.user.token}).populate('roles');
+    res.cookie('token', user.token)
+    res.cookie('role', user.roles[0].name);
     transporter.sendMail(signupMail(req), function (error, info) {
       if (error) {
         console.log(error)
@@ -120,7 +123,8 @@ router.post(
         res.send('Todo ok en el envío de mails de nodemailer')
       }
     })
-    return res.send(req.user)
+    return res.sendStatus(200)
+
 
     //res.redirect(AL JOM DEL PROYECTO)
   }
@@ -149,20 +153,7 @@ router.post(
         const userFound = await User.findOne({
           username: req.body.username,
         }).populate('roles')        
-        // const userCart=await User.findOne({username:req.body.username})
-        // if (req.body.cart){
-        //    userCart.shoppingCart=userCart.shoppingCart.concat(req.body.cart)
-        //    function onlyUnique(value, index, self) { 
-        //     return self.indexOf(value) === index;
-        //    }       
-        //    let filter=userCart.shoppingCart.filter(onlyUnique )
-        //    console.log(filter)
-        //    userCart.shoppingCart=filter
-        //    userCart.save()
-        // }
         const update = { token: token }
-        // const cart=userCart.shoppingCart
-        
         const role = userFound.roles[0].name
         const resp = await User.findOneAndUpdate(filter, update, { new: true })
 
