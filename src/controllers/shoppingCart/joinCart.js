@@ -2,10 +2,7 @@ const User= require("../../models/User");
 
 async function joinCart(req, res, next) {
     try {
-        console.log('REQ.BODY => ', req.body)
-
         const userCart=await User.findOne({token:req.body.user})
-        console.log('USER CART =>' ,userCart)
             if (req.body.cart){
                 userCart.shoppingCart=userCart.shoppingCart.concat(req.body.cart)
                 function onlyUnique(value, index, self) { 
