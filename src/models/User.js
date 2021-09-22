@@ -22,14 +22,27 @@ const userSchema = new Schema({
     },
     { timestamps: true, versionKey: false },
   ],
-  shoppingCart:[
+  shoppingCart: [
     {
       type: Schema.Types.ObjectId,
       ref: "ShoppingCart",
     },
     { timestamps: true, versionKey: false },
-  ]
-
+  ],
+  favourites: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "favourites",
+    },
+    { timestamps: true, versionKey: false },
+  ],
+  purchase: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Purchase",
+    },
+    { timestamps: true, versionKey: false },
+  ],
 });
 
 userSchema.pre("save", async function save(next) {
