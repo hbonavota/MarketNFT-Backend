@@ -4,16 +4,15 @@ const router = Router();
 const cors = require("cors");
 const passport = require("passport");
 
-const {
-  transactionMetaMask,
-} = require("../controllers/payments/crypto/transactionMetaMask");
-const { StripePayment } = require("../controllers/payments/fiat/Stripe");
-const { MPayment } = require("../controllers/payments/fiat/MercadoPago");
-const { createOrder, getOrder } = require("../controllers/products/orders");
-const { createProfile, getProfile } = require("../controllers/users/user");
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
-const verifyToken = require("../controllers/middlewares/verifyToken");
+const { transactionMetaMask } = require('../controllers/payments/crypto/transactionMetaMask')
+const { StripePayment } = require('../controllers/payments/fiat/Stripe')
+const { MPayment } = require('../controllers/payments/fiat/MercadoPago')
+const { createOrder, getOrder } = require('../controllers/products/orders')
+const { createProfile, getProfile, updatedProfileById } = require('../controllers/users/user')
+const { createReview, getReview } = require('../controllers/users/review')
+const jwt = require('jsonwebtoken')
+const User = require('../models/User')
+const verifyToken = require('../controllers/middlewares/verifyToken')
 const corsOptions = {
   origin:
     /* "https://project-nft-s-frontend.vercel.app" */ "http://localhost:3000",
@@ -86,10 +85,15 @@ router.post("/MercadoPagoTransaction", MPayment);
 router.put("/edit/:id", updateProductById);
 
 //ROUTES PROFILE
-router.get("/profile", getProfile);
+router.get("/profile/:token", getProfile);
 router.post("/profile", createProfile);
+router.put("/profile/configuration", updatedProfileById)
+router.post("/profile/review", createReview)
+router.get("/profile/review", getReview)
 
-router.delete("/admin/:id", deleteProductById); // RUTA DEL ADMIN
+
+// RUTA DEL ADMIN
+router.delete("/admin/:id", deleteProductById); 
 router.post(
   "/admin/create",
   passport.authenticate("local-signup", {
