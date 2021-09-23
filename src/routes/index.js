@@ -85,7 +85,7 @@ router.post("/MercadoPagoTransaction", MPayment);
 router.put("/edit/:id", updateProductById);
 
 //ROUTES PROFILE
-router.get("/profile/:token", getProfile);
+router.get("/profile", getProfile);
 router.post("/profile", createProfile);
 router.put("/profile/configuration", updatedProfileById)
 router.post("/profile/review", createReview)

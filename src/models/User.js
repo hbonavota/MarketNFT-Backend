@@ -6,6 +6,8 @@ const userSchema = new Schema({
   username: {
     type: String,
   },
+  image: String,
+  description: String,
   firstName: String,
   lastName: String,
   token: String,
