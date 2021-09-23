@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 // const findOrCreate = require('mongoose-findorcreate');
 
@@ -14,7 +14,7 @@ const ProductsSchema = new Schema({
     {
       type: Schema.Types.ObjectId,
 
-      ref: "categories",
+      ref: 'categories',
     },
     { timestamps: true, versionKey: false },
   ],
@@ -23,7 +23,13 @@ const ProductsSchema = new Schema({
 
   address: String,
 
-  reviews: String,
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'reviews',
+    },
+    { timestamps: true, versionKey: false },
+  ],
 
   createdInDB: {
     type: Boolean,
@@ -31,9 +37,8 @@ const ProductsSchema = new Schema({
   },
   description: String,
   artistName: String,
-  reviews: [],
-});
+})
 
 // ProductsSchema.plugin(findOrCreate);
 
-module.exports = mongoose.model("products", ProductsSchema);
+module.exports = mongoose.model('products', ProductsSchema)
