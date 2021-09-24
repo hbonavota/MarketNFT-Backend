@@ -86,8 +86,8 @@ router.put("/edit/:id", updateProductById);
 
 //ROUTES PROFILE
 router.get("/profile/:token", getProfile);
-router.post("/profile", createProfile);
-router.put("/profile/configuration", updatedProfileById)
+router.put("/profile/:token", updatedProfileById)
+//ROUTES REVIEW
 router.post("/review", createReview)
 router.get("/review", getReview)
 

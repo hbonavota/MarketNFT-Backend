@@ -1,30 +1,31 @@
-const Artist = require("../../models/Artist");
+const User = require("../../models/User");
 
 
-async function createProfile(req, res) {
+async function updatedProfileById(req, res, next) {
   try {
-    const { name, description, image } = req.body;
-
-
-    const newProfile = new Artist({
-        name,
-        description,
-        image,
-    });
-
-    const profileSaved = await newProfile.save();
-    res.status(201).json(profileSaved);
-
+    const { artist, description, profilePic } = req.body;
+    const { token } = req.params;
+      console.log(req.body)
+      console.log(token)
+    let profileUser = await User.findOne({token})
+    profileUser.artist = artist;
+    profileUser.description = description;
+    profileUser.profilePic = profilePic;
+    await profileUser.save();
+    res.json(profileUser);
+    
   } catch (error) {
-    console.log(error);
-    res.json(error);
+    next("error");
+    res.json("fail edit profile");
   }
 }
+
 
 async function getProfile(req, res) {
     const { token } = req.params;
     try {
-        const profile = await Artist.findOne({token})
+        const profile = await User.findOne({token})
+
         console.log("perfil desde la cookie", profile)
         return res.json(profile)
 
@@ -35,24 +36,7 @@ async function getProfile(req, res) {
 }
 
 
-async function updatedProfileById(req, res, next) {
-  const id = req.params.id;
-  const { name, description, image } = req.body;
-
-  try {
-    await Artist.findByIdAndUpdate(id, name, description, image);
-
-    res.json("Profile updated");
-    
-  } catch (error) {
-    next("error");
-    res.json("fail edit profile");
-  }
-}
-
-
 module.exports = {
-    createProfile,
     getProfile,
     updatedProfileById,
 };
