@@ -22,7 +22,7 @@ const User = require('../models/User')
 const verifyToken = require('../controllers/middlewares/verifyToken')
 const corsOptions = {
   origin:
-    /* "https://project-nft-s-frontend.vercel.app" */ 'http://localhost:3000',
+    "https://project-nft-s-frontend.vercel.app",
   credentials: true,
   optionSuccessStatus: 200,
 }
@@ -106,8 +106,6 @@ router.delete('/admin/:id', deleteProductById)
 router.post(
   '/admin/create',
   passport.authenticate('local-signup', {
-    // successRedirect : 'https://localhost:3000/',
-    // failureRedirect: 'https://localhost:3000/login',
     passReqToCallback: true,
   }),
   async (req, res, next) => {
@@ -123,8 +121,6 @@ router.delete('/delete/:id', deleteProductById)
 router.post(
   '/register',
   passport.authenticate('local-signup', {
-    // successRedirect : 'https://localhost:3000/',
-    // failureRedirect: 'https://localhost:3000/login',
     passReqToCallback: true,
   }),
 
@@ -151,8 +147,6 @@ router.post(
 router.post(
   '/login',
   passport.authenticate('local-login', {
-    // successRedirect : 'https://localhost:3000/',
-    // failureRedirect: 'https://localhost:3000/login',
     passReqToCallback: true,
   }),
   async (req, res, next) => {
@@ -216,8 +210,7 @@ router.get(
   '/auth/google/callback',
   passport.authenticate('google', {
     failureRedirect:
-      /* "https://project-nft-s-frontend.vercel.app/rutadeerror" */ 'http://localhost:3000/rutadeerror',
-    // successRedirect: 'http://localhost:3000/',
+      "https://project-nft-s-frontend.vercel.app/rutadeerror",
     passReqToCallback: true,
   }),
   async (req, res) => {
@@ -227,7 +220,7 @@ router.get(
     const role = userFound.roles[0].name
     res.cookie('token', userFound.token)
     res.cookie('role', role)
-    return res.redirect('http://localhost:3000/')
+    return res.redirect("https://project-nft-s-frontend.vercel.app")
   }
 )
 
