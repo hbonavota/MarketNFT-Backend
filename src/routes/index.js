@@ -88,8 +88,8 @@ router.put("/edit/:id", updateProductById);
 router.get("/profile/:token", getProfile);
 router.post("/profile", createProfile);
 router.put("/profile/configuration", updatedProfileById)
-router.post("/profile/review", createReview)
-router.get("/profile/review", getReview)
+router.post("/review", createReview)
+router.get("/review", getReview)
 
 
 // RUTA DEL ADMIN

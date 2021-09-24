@@ -1,15 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// const findOrCreate = require('mongoose-findorcreate');
-
 const ProductsSchema = new Schema({
   name: { type: String, required: true, index: true, sparse: true },
   id: String,
   price: { type: Number, required: true },
   currency: { type: String, required: true },
   image: String,
-
   categories: [
     {
       type: Schema.Types.ObjectId,
@@ -18,13 +15,15 @@ const ProductsSchema = new Schema({
     },
     { timestamps: true, versionKey: false },
   ],
-
   tokenId: String,
-
   address: String,
-
-  reviews: String,
-
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "reviews",
+    },
+    { timestamps: true, versionKey: false },
+  ],
   createdInDB: {
     type: Boolean,
     default: true,
@@ -33,7 +32,5 @@ const ProductsSchema = new Schema({
   artistName: String,
   reviews: [],
 });
-
-// ProductsSchema.plugin(findOrCreate);
 
 module.exports = mongoose.model("products", ProductsSchema);
