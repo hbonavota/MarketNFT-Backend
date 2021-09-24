@@ -14,7 +14,8 @@ const userSchema = new Schema({
   },
   googleID: String,
   profilePic: String,
-
+  artist: String,
+  description: String,
   roles: [
     {
       type: Schema.Types.ObjectId,
