@@ -1,37 +1,32 @@
-const Reviews = require("../../models/Reviews");
-
+const Reviews = require('../../models/Reviews')
 
 async function createReview(req, res) {
   try {
-    const { text } = req.body;
-    const newReview = new Reviews({
-        text
-    });
-    const reviewSaved = await newReview.save();
-    res.status(201).json(reviewSaved);
+    const { review, id } = req.body
+    const newReview = new Reviews({ review, id })
 
+    const reviewSaved = await newReview.save()
+    console.log('nueva review:', reviewSaved)
+    res.status(201).json(reviewSaved)
   } catch (error) {
-    console.log(error);
-    res.json(error);
+    console.log(error)
+    res.json(error)
   }
 }
 
 async function getReview(req, res) {
-    try {
-        const review = await Reviews.find()
-        const profile = await Artist.find()
-        console.log("Perfil del usuario: ", profile);
-        console.log("ID del perfil", profile._id)
-        return res.json(review)
+  try {
+    const review = await Reviews.findOne()
+    // const profile = await Artist.find()
 
-    } catch(error) {
-        console.log("No se pudo traer el perfil", error)
-        return res.json(error)
-    }
+    return res.json(review)
+  } catch (error) {
+    console.log('No se pudo traer el perfil', error)
+    return res.json(error)
+  }
 }
 
-
 module.exports = {
-    createReview,
-    getReview,
-};
+  createReview,
+  getReview,
+}
