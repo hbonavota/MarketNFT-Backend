@@ -3,6 +3,7 @@ const Roles = require('../../src/models/Role')
 const router = Router()
 const cors = require('cors')
 const passport = require('passport')
+const crypto = require('crypto')
 
 const {
   transactionMetaMask,
@@ -29,6 +30,8 @@ const corsOptions = {
 const transporter = require('../libs/nodemailer')
 const signupMail = require('../libs/signupMail')
 const verifyAdmin = require('../controllers/middlewares/verifyAdmin')
+const forgotPass = require("../libs/forgotPass");
+
 
 //ADMIN
 const {
@@ -230,6 +233,40 @@ router.get(
 
 //PRUEBAS
 router.get('/prueba', verifyAdmin)
+//PASSWORD RESET
+router.post('/forgot', async(req, res) => {
+  const {username} = req.body;
+  console.log(username)
+  const user = await User.findOne({username})
+  if (!user) {
+    return res.status(404).send({error: 'User not found'})
+  }
+  const token = crypto.randomBytes(20).toString('hex');
+  user.token = token;
+  await user.save()
+  transporter.sendMail(forgotPass(req, user), function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+      res.send("Todo ok en el envío de mails de nodemailer");
+    }
+
+  })
+
+  return res.send(token);
+
+})
+
+//RESET ROUTE
+router.post('/reset/:token', async(req, res)=> {
+  const user = await User.findOne({token : req.params.token});
+  if (!user) return res.json({message : 'token expirado'}).status(404)
+  user.token = null;
+  user.password = req.body.password;
+  await user.save();
+  return res.send('PASSWORD CAMBIADA CORRECTAMENTE')
+})
 
 router.use(cors(corsOptions))
 
