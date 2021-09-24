@@ -28,6 +28,10 @@ const ProductsSchema = new Schema({
     type: Boolean,
     default: true,
   },
+  sold:{
+    type: Boolean,
+    default: false,
+  },
   description: String,
   artistName: String,
   reviews: [],

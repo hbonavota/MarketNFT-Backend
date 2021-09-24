@@ -282,6 +282,10 @@ router.post('/joinShoppingCart', joinCart)
 
 //PURCHAISE
 const { historyPurchase } = require('../controllers/purchase/historyPurchase')
+const { purchase } = require("../controllers/purchase/purchase");
+const { changeStatus } = require("../controllers/purchase/changeStatus");
 router.post('/purchase', historyPurchase)
+router.post('/newPurchase',purchase)
+router.post('/nftSold', changeStatus)
 
 module.exports = router

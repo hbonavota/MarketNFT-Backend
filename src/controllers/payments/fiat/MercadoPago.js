@@ -34,9 +34,9 @@ mercadopago.configure({
               }
             ],
             back_urls: {
-              success: "https://project-nft-s-frontend.vercel.app",
-              failure: "https://project-nft-s-frontend.vercel.app",
-              pending: "https://project-nft-s-frontend.vercel.app"
+              success:'http://localhost:3000/',
+              // failure: "https://project-nft-s-frontend.vercel.app",
+              // pending: "https://project-nft-s-frontend.vercel.app"
           },
           auto_return: 'approved',
           };
