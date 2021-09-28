@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const Roles = require('../../src/models/Role')
 const router = Router()
-const cors = require('cors')
+/* const cors = require('cors') */
 const passport = require('passport')
 const crypto = require('crypto')
 
@@ -20,12 +20,13 @@ const { createReview, getReview } = require('../controllers/users/review')
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const verifyToken = require('../controllers/middlewares/verifyToken')
-const corsOptions = {
+/* const corsOptions = {
   origin:
     "https://project-nft-s-frontend.vercel.app",
   credentials: true,
   optionSuccessStatus: 200,
-}
+} */
+
 // PRUEBA NODEMAILER
 const transporter = require('../libs/nodemailer')
 const signupMail = require('../libs/signupMail')
@@ -261,7 +262,7 @@ router.post('/reset/:token', async(req, res)=> {
   return res.send('PASSWORD CAMBIADA CORRECTAMENTE')
 })
 
-router.use(cors(corsOptions))
+/* router.use(cors(corsOptions)) */
 
 //SHOPPING CART USER LOGGED
 const { shoppingCartDB } = require('../controllers/shoppingCart/shoppingCartDB')
