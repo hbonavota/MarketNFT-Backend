@@ -64,6 +64,7 @@ server.use(
   }
   })
 );
+server.enable('trust proxy')
 server.use(express.urlencoded({ extended: true, limit: "50mb" }));
 server.use(express.json({ limit: "50mb" }));
 server.use(cookieParser());
