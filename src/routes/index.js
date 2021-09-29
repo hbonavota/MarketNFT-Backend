@@ -271,7 +271,7 @@ const { deleteCart } = require('../controllers/shoppingCart/deleteCart')
 const { joinCart } = require('../controllers/shoppingCart/joinCart')
 router.post('/userShoppingCart', shoppingCartDB)
 router.post('/DBShoppingCart', getCart)
-router.post('/deleteItem', deleteCart)
+router.delete('/deleteItem', deleteCart)
 router.post('/joinShoppingCart', joinCart)
 
 //PURCHAISE
