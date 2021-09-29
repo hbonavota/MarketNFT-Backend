@@ -181,7 +181,12 @@ router.post(
         const role = userFound.roles[0].name
         const resp = await User.findOneAndUpdate(filter, update, { new: true })
 
-        res.cookie('token', resp.token)
+        res.cookie('token', resp.token, {
+          httpOnly:true,
+          maxAge:3600000*5,
+          secure:true,
+          sameSite:'none',
+       })
         res.cookie('role', role)
         return res.sendStatus(200)
       })
