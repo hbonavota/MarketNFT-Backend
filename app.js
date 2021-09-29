@@ -7,7 +7,7 @@ const { createCategories } = require("./src/libs/initialSetup");
 const session = require("express-session");
 const passport = require("passport");
 const routes = require("./src/routes/index");
-/* const cors = require("cors"); */
+const cors = require("cors");
 const verifyToken = require('./src/controllers/middlewares/verifyToken');
 
 
@@ -21,7 +21,7 @@ require("./src/passport/local-auth");
 require("./src/passport/google-auth");
 
 //MIDDLEWARES
-server.use(function(req, res, next) {
+/* server.use(function(req, res, next) {
   let allowedOrigins = ['https://project-nft-s-frontend.vercel.app', 'http://localhost:3000', 'http://localhost:8001'];
   let origin = req.headers.origin;
 
@@ -32,13 +32,13 @@ server.use(function(req, res, next) {
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Access-Control-Allow-Credentials', true);
   return next();
-});
+}); */
 
 
-/* server.use(
+server.use(
   cors({
     credentials: true,
-    origin:  'https://project-nft-s-frontend.vercel.app',
+    origin:  ['https://project-nft-s-frontend.vercel.app', 'http://localhost:3000', 'http://localhost:8001'],
     methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
     allowedHeaders: [
       "Content-Type",
@@ -46,12 +46,17 @@ server.use(function(req, res, next) {
       "Access-Control-Allow-Origin",
     ],
   })
-); */
+);
 server.use(
   session({
     secret: "algunstringtemporalqsy",
     saveUninitialized: true,
     resave: true,
+    proxy: true,
+    cookie : {
+      secure : true,
+      maxAge: 5184000000 // 2 months
+  }
   })
 );
 server.use(express.urlencoded({ extended: true, limit: "50mb" }));
