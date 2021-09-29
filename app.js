@@ -52,6 +52,11 @@ server.use(
     secret: "algunstringtemporalqsy",
     saveUninitialized: true,
     resave: true,
+    proxy: true,
+    cookie : {
+      secure : true,
+      maxAge: 5184000000 // 2 months
+  }
   })
 );
 server.use(express.urlencoded({ extended: true, limit: "50mb" }));
