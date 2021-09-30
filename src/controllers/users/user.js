@@ -3,7 +3,7 @@ const User = require("../../models/User");
 
 async function updatedProfileById(req, res, next) {
   try {
-    const { artist, description, profilePic } = req.body;
+    const { artist, description, profilePic, address} = req.body;
     const { token } = req.params;
       console.log(req.body)
       console.log(token)
@@ -11,6 +11,7 @@ async function updatedProfileById(req, res, next) {
     profileUser.artist = artist;
     profileUser.description = description;
     profileUser.profilePic = profilePic;
+    profileUser.address= address;
     await profileUser.save();
     res.json(profileUser);
     

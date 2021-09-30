@@ -138,8 +138,7 @@ router.post(
       }
     })
     return res.sendStatus(200)
-
-    //res.redirect(AL JOM DEL PROYECTO)
+  
   }
 )
 
@@ -151,6 +150,7 @@ router.post(
     passReqToCallback: true,
   }),
   async (req, res, next) => {
+    console.log('entra')
     try {
       if (req.error || !req.user) {
         const error = new Error('new Error')
@@ -180,6 +180,8 @@ router.post(
 
         const role = userFound.roles[0].name
         const resp = await User.findOneAndUpdate(filter, update, { new: true })
+        console.log(resp,'respuestaaa')
+        //no llegaaaa
 
         res.cookie('token', resp.token)
         res.cookie('role', role)
