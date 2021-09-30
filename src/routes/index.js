@@ -212,7 +212,7 @@ router.get(
   '/auth/google/callback',
   passport.authenticate('google', {
     failureRedirect:
-      "https://project-nft-s-frontend.vercel.app/rutadeerror",
+      "http://localhost:3000/rutadeerror",
     passReqToCallback: true,
   }),
   async (req, res) => {
@@ -222,7 +222,7 @@ router.get(
     const role = userFound.roles[0].name
     res.cookie('token', userFound.token)
     res.cookie('role', role)
-    return res.redirect("https://project-nft-s-frontend.vercel.app")
+    return res.redirect("http://localhost:3000")
   }
 )
 
