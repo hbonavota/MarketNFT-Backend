@@ -193,6 +193,7 @@ router.post(
 
 router.post('/logout', async (req, res, next) => {
   try {
+    console.log(req.body)
     const filter = { token: req.body.token }
     const update = { token: null }
     await User.findOneAndUpdate(filter, update, { new: true })

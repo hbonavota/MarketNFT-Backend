@@ -15,7 +15,6 @@ async function addFavorite(req, res) {
     } else {
       let fav = userFound.favourites.concat(item);
       let filter = fav.filter(onlyUnique);
-      console.log(userFound.favourites);
       userFound.favourites = filter;
       userFound.save();
     }
