@@ -20,12 +20,9 @@ async function purchase (req, res, next) {
     const userToken  = req.body.user;  
     const cart= req.body.cart
     let user = await User.findOne({token:userToken})
-    console.log(user,'user')
       let allNfts= await Product.find()
-      console.log(allNfts,'nfts')
       user.purchase=user.purchase.concat(cart)
       let filter=cart.filter(onlyUnique )
-      console.log(filter,'filter')
       user.purchase=filter
       user.shoppingCart=[] 
       await user.save()

@@ -9,7 +9,6 @@ async function joinCart(req, res, next) {
                 return self.indexOf(value) === index;
                 }       
             let filter=userCart.shoppingCart.filter(onlyUnique)
-            console.log(filter)
             userCart.shoppingCart=filter.filter(e=> e!=null)
             await userCart.save()
             return res.send(userCart.shoppingCart)     
