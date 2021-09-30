@@ -9,21 +9,26 @@ function identifyById(allNfts, ids) {
     return result
 }
 
-function onlyUnique(value, index, self) { 
-  return self.indexOf(value) === index;
- }   
+// function onlyUnique(value, index, self) { 
+//   return self.indexOf(value) === index;
+//  }   
 
 
 
 async function purchase (req, res, next) {
   try {
     const userToken  = req.body.user;  
-    const cart= req.body.cart
+    const cart = req.body.cart
     let user = await User.findOne({token:userToken})
-      let allNfts= await Product.find()
-      user.purchase=user.purchase.concat(cart)
-      let filter=cart.filter(onlyUnique )
-      user.purchase=filter
+      // let allNfts= await Product.find()
+      // user.purchase=user.purchase.concat(cart)
+      // let nft = Product.findById(cart[0]);
+      // console.log('NFT', nft)
+      user.purchase.push(cart);
+      user.purchase.flat();
+      
+      // let filter=cart.filter(onlyUnique )
+      // user.purchase=filters
       user.shoppingCart=[] 
       await user.save()
       const result=identifyById(allNfts,user.purchase )
