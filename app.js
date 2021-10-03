@@ -25,7 +25,7 @@ require("./src/passport/google-auth");
 //MIDDLEWARES
 
 /* server.use(function(req, res, next) {
-  let allowedOrigins = ['https://project-nft-s-frontend.vercel.app', 'http://localhost:3000', 'http://localhost:8001'];
+  let allowedOrigins = ['https://project-nft-s-frontend.vercel.app', 'http://localhost:3000', 'http://localhost:8001','http://www.henrynft.tk'];
   let origin = req.headers.origin;
 
   if(allowedOrigins.indexOf(origin) > -1){
