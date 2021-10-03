@@ -18,19 +18,16 @@ function onlyUnique(value, index, self) {
 async function purchase (req, res, next) {
   try {
     const userToken  = req.body.user;  
-    const cart= req.body.cart
+    const cart = req.body.cart
     let user = await User.findOne({token:userToken})
-    console.log(user,'user')
-      let allNfts= await Product.find()
-      console.log(allNfts,'nfts')
-      user.purchase=user.purchase.concat(cart)
-      let filter=cart.filter(onlyUnique )
-      console.log(filter,'filter')
-      user.purchase=filter
-      user.shoppingCart=[] 
-      await user.save()
-      const result=identifyById(allNfts,user.purchase )
-      return res.send(result)
+    let allNfts = await Product.find()
+    user.purchase=user.purchase.concat(cart)
+    user.purchase=user.purchase.filter(onlyUnique)
+    const filter = { token: userToken }
+    const update = { purchase: user.purchase, shoppingCart : Object.assign([]) }
+    await User.findOneAndUpdate(filter, update, { new: true })
+    const result=identifyById(allNfts,user.purchase )
+    return res.send(result)
     } catch (error) {
       next("Error Purchase");
       res.json(error);

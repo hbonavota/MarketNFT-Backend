@@ -138,8 +138,7 @@ router.post(
       }
     })
     return res.sendStatus(200)
-
-    //res.redirect(AL JOM DEL PROYECTO)
+  
   }
 )
 
@@ -151,6 +150,7 @@ router.post(
     passReqToCallback: true,
   }),
   async (req, res, next) => {
+    console.log('entra')
     try {
       if (req.error || !req.user) {
         const error = new Error('new Error')
@@ -180,6 +180,8 @@ router.post(
 
         const role = userFound.roles[0].name
         const resp = await User.findOneAndUpdate(filter, update, { new: true })
+        console.log(resp,'respuestaaa')
+        //no llegaaaa
 
         res.cookie('token', resp.token)
         res.cookie('role', role)
@@ -193,6 +195,7 @@ router.post(
 
 router.post('/logout', async (req, res, next) => {
   try {
+    console.log(req.body)
     const filter = { token: req.body.token }
     const update = { token: null }
     await User.findOneAndUpdate(filter, update, { new: true })
@@ -211,7 +214,7 @@ router.get(
   '/auth/google/callback',
   passport.authenticate('google', {
     failureRedirect:
-      "https://project-nft-s-frontend.vercel.app/rutadeerror",
+      "http://localhost:3000/rutadeerror",
     passReqToCallback: true,
   }),
   async (req, res) => {
@@ -221,7 +224,7 @@ router.get(
     const role = userFound.roles[0].name
     res.cookie('token', userFound.token)
     res.cookie('role', role)
-    return res.redirect("https://project-nft-s-frontend.vercel.app")
+    return res.redirect("http://localhost:3000")
   }
 )
 
