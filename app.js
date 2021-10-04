@@ -41,7 +41,7 @@ require("./src/passport/google-auth");
 server.use(
   cors({
     credentials: true,
-    origin:  ['https://project-nft-s-frontend.vercel.app', 'http://localhost:3000', 'http://localhost:8001', 'https://www.henrynft.tk'],
+    origin:  ['https://project-nft-s-frontend.vercel.app', 'http://localhost:3000', 'http://localhost:8001', 'https://www.henrynft.tk', 'https://henrynfts.vercel.app'],
     methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
     allowedHeaders: [
       "Content-Type",
